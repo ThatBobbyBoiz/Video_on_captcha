@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Page</title>
+	<!-- Import the Montserrat font from Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+	<style type="text/css">
+		/* Set the background image and apply a blur effect */
+		body::before {
+			content: "";
+			background-color: #000	;
+			background-size: cover;
+			background-position: center top;
+			filter: blur(5px);
+			height: 100%;
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: -1;
+		}
+
+		/* Style for background video */
+		#background-video {
+			position: fixed;
+			top: 0;
+			left: 0;
+			min-width: 100%;
+			min-height: 100%;
+			object-fit: cover;
+			z-index: -1;
+		}
+
+		/* Style the login container */
+		.login-container {
+			max-width: 400px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #fff;
+			border-radius: 8px;
+			box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.1);
+			position: relative;
+			z-index: 1;
+			}
+
+		/* Style the login container heading */
+		.login-container h1 {
+			text-align: center;
+			font-family: Arial, sans-serif;
+			color: #000;
+			margin-top: 0;
+		}
+
+		/* Style the form group */
+		.form-group {
+			margin-bottom: 20px;
+			position: relative;
+		}
+
+		/* Style the form group label */
+		.form-group label {
+			position: absolute;
+			top: 10px;
+			left: 20px;
+			color: #666;
+			pointer-events: none;
+			transition: all 0.3s ease-out;
+		}
+
+		/* Style the form group input */
+		.form-group input {
+			display: block;
+			width: 100%;
+			padding: 20px 20px 20px 60px;
+			box-sizing: border-box;
+			font-size: 16px;
+			border-radius: 25px;
+			border: none;
+			background-color: #e6e6e6;
+			color: #666;
+		}
+
+		/* Style the form group input when focused */
+		.form-group input:focus {
+			outline: none;
+			background-color: #fff;
+			box-shadow: inset 0px 0px 0px 2px #0099ff;
+		}
+
+		/* Style the form group label when input is focused */
+		.form-group input:focus + label {
+			top: -25px;
+			left: 20px;
+			color: #0099ff;
+			font-size: 14px;
+			font-weight: bold;
+		}
+		
+		/* Style the button */
+		.btn {
+			display: block;
+			background-color: #0099ff;
+			color: #fff;
+			padding: 20px;
+			border-radius: 25px;
+			border: none;
+			font-size: 16px;
+			cursor: pointer;
+			width: 100%;
+			transition: background-color 0.3s ease-out;
+		}
+
+		/* Style for hover effect on button */
+		.btn:hover {
+			background-color: #00b3ff;
+		}
+
+		/* Style for title container */
+		.title-container {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-bottom: 5px;
+		}
+		
+		/* Style for title */
+		.title {
+			font-family: 'Montserrat', sans-serif;
+			font-size: 90px;
+			font-weight: 700;
+			color: white;
+			text-shadow: 1px 1px 10px black;
+		}
+
+		/* Style for title video */
+		.title-video {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		/* Style for show captcha button */
+		#show-captcha-btn {
+			background-color: #4CAF50;
+			border: none;
+			color: white;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin-top: 20px;
+			cursor: pointer;
+			border-radius: 5px;
+		}
+
+		/* Style for hover effect on show captcha button */
+		#show-captcha-btn:hover {
+			background-color: #3e8e41;
+		}
+
+		/* Style for captcha container */
+			.captcha-container {
+			display: flex;
+			align-items: center;
+		}
+		
+		/* Style for popup box */
+		#popup-box {
+  			position: fixed;
+  			top: 40%;
+  			left: 50%;
+  			transform: translate(-50%, -50%) scale(0);
+  			width: 400px;
+  			height: 450px;
+  			background-color: white;
+  			border-radius: 10px;
+  			box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+  			z-index: 9999;
+  			transition: transform 0.3s ease-in-out;
+  			display: flex;
+  			flex-direction: column;
+  			justify-content: flex-start;
+  			align-items: flex-start;
+  			padding: 20px;
+  			box-sizing: border-box;
+		}
+
+		/* Style for popup box header */
+		#popup-box h3 {
+			font-size: 18px;
+			top: auto;
+			margin: 0 0 0;
+		}
+
+		/* Style for popup box title */
+		#popup-box h2 {
+			flex: 1 1 100%;
+			font-size: 40px;
+			margin: 0;
+		}
+
+		/* Style for popup box button */
+		#popup-btn {
+			background-color: #4CAF50;
+			border: none;
+			color: white;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			margin-top: 20px;
+			cursor: pointer;
+			border-radius: 5px;
+		}
+
+		/* Style for image container */
+		.image-container {
+			position: relative;
+			display: grid;
+			place-items: center;
+			display: inline-block;
+		}
+
+		/* Style for overlay of grids */
+		.grid-overlay {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			grid-template-rows: repeat(3, 1fr);
+			grid-gap: 2px;
+			z-index: 2;
+		}
+
+		/* Style for individual grid */
+		.grid-overlay div {
+			outline: #ffffff solid;
+		}
+
+		/* Style for grid cells in captcha overlay */
+		.grid-cell {
+			border: 4px solid rgba(0, 0, 0);
+			border-radius: 5px;
+		}
+
+		/* Position of each cell in captcha grid overlay */
+		.grid-cell:nth-child(1) {
+			top: 0;
+			left: 0;
+		}
+
+		.grid-cell:nth-child(2) {
+			top: 0;
+			left: calc(33.33% + 5px);
+		}
+
+		.grid-cell:nth-child(3) {
+			top: 0;
+			right: 0;
+		}
+
+		.grid-cell:nth-child(4) {
+			top: calc(33.33% + 5px);
+			left: 0;
+		}
+
+		.grid-cell:nth-child(5) {
+			top: calc(33.33% + 5px);
+			left: calc(33.33% + 5px);
+		}
+
+		.grid-cell:nth-child(6) {
+			top: calc(33.33% + 5px);
+			right: 0;
+		}
+
+		.grid-cell:nth-child(7) {
+			bottom: 0;
+			left: 0;
+		}
+
+		.grid-cell:nth-child(8) {
+			bottom: 0;
+			left: calc(33.33% + 5px);
+		}
+
+		.grid-cell:nth-child(9) {
+			bottom: 0;
+			right: 0;
+		}
+
+		/* Style for video element inside popup box */
+		#popup-box video {
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+			align-self: flex-end;
+			z-index: 1;
+		}
+
+		/* Style for image element inside popup box */
+		#popup-box img {
+			position: absolute;
+			width: 70px;
+			right: 25px;
+			top: 10px;
+			border: 3px solid #000;
+		}
+
+	</style>
+
+</head>
+<body>
+
+	<!-- Background video -->
+	<video id="background-video" src="/path/to/file.mp4" muted autoplay="false" style="display: none;" delay="2000"></video> <!-- change this -->
+
+	<!-- Container for page title and logo -->
+	<div class="title-container">
+		<video id="title-video" src="/path/to/file.mp4" width="75" autoplay="false"></video> <!-- change this -->
+		<h1 class="title">Bad Apple</h1>
+	</div>
+	
+	<!-- Container for login form -->
+	<div class="login-container"> 
+		<h1>Login</h1>
+		<form id="login-form">
+			<div class="form-group">
+				<input type="text" id="username" name="username" required autocomplete="off">
+				<label for="username">Username</label>
+			</div>
+			<div class="form-group">
+				<input type="password" id="password" name="password" required>
+				<label for="password">Password</label>
+			</div>
+			
+			<!-- Container for captcha button and instructions -->
+			<div class="captcha-container">
+				<button id="show-captcha-btn" style="margin-bottom: 20px;">I'm not a robot</button>
+				<p style="display: inline-block; margin-left: 10px; font: 16px;">Click the button to show the captcha</p>
+			</div>
+
+			<!-- Container captcha popup box and its sub-element -->
+			<div id="popup-box" style="transform: scale(0);">
+				<h3>Please select any image contains</h3>
+				<img src="/path/to/file.png"> <!-- change this -->
+				<h2>Bad Apple</h2>
+				<div class="image-container">
+				  <video id="my-video" src="/path/to/file.mp4" autoplay delay="2000"></video> <!-- change this -->
+				  <div class="grid-overlay" style="margin-bottom: 5px;">					
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+				  </div>
+				</div>
+				<button id="popup-btn">Verify</button>
+			  </div>											  
+
+			<!-- Button to submit login form -->
+			<button class="btn" id="login-btn">Login</button>
+		</form>
+	</div>	
+
+	  <script>
+
+		/* Declare variables */
+		const showCaptchaBtn = document.getElementById("show-captcha-btn");
+		const popupBox = document.getElementById("popup-box");
+
+		/* Listen for "click" event */
+		showCaptchaBtn.addEventListener("click", function() {
+			/* Wait 50 milisecond then scale up the popup box */
+			setTimeout(function() {
+				popupBox.style.transform = "scale(1)";
+			}, 50);
+		});
+
+		/* Stop event from causing unintended effect */
+		popupBox.addEventListener("click", function(event) {
+			event.stopPropagation();
+		});
+	  </script>
+
+		<script>
+
+			/* Declare variable */
+			const bgVideo = document.getElementById("background-video");
+			/* Pause background video */
+			bgVideo.pause(); 
+
+			/* Declare variable and listen for "click" event */
+			const show_CaptchaBtn = document.getElementById("show-captcha-btn");
+			show_CaptchaBtn.addEventListener("click", () => {
+				bgVideo.style.display = 'block';
+				/* Play the video */
+				bgVideo.play();
+			});
+
+		</script>
+	  
+</body>
+</html>
