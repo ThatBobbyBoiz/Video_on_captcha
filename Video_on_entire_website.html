@@ -1,3 +1,7 @@
+<!-- Note: The video from the captcha box and other two are not sync, for some reason.
+If you want them to "look" (not exactly sync), you should wait around 15-20 seconds after the page load (again I don't know why).
+If anyone know how to fix this issue, please let me know, thank you in advance! -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -323,11 +327,11 @@
 <body>
 
 	<!-- Background video -->
-	<video id="background-video" src="/path/to/file.mp4" muted autoplay="false" style="display: none;" delay="2000"></video> <!-- change this -->
+	<video id="background-video" src="/path/to/file.mp4" muted autoplay="false" style="display: none;"></video> <!-- change this -->
 
 	<!-- Container for page title and logo -->
 	<div class="title-container">
-		<video id="title-video" src="/path/to/file.mp4" width="75" autoplay="false"></video> <!-- change this -->
+		<video id="title-video" src="/path/to/file.mp4" muted width="75" autoplay="false"></video> <!-- change this -->
 		<h1 class="title">Bad Apple</h1>
 	</div>
 	
@@ -356,7 +360,7 @@
 				<img src="/path/to/file.png"> <!-- change this -->
 				<h2>Bad Apple</h2>
 				<div class="image-container">
-				  <video id="my-video" src="/path/to/file.mp4" autoplay delay="2000"></video> <!-- change this -->
+				  <video id="my-video" src="path/to/file.mp4" autoplay></video>  <!-- change this -->
 				  <div class="grid-overlay" style="margin-bottom: 5px;">					
 					<div class="grid-cell"></div>
 					<div class="grid-cell"></div>
@@ -382,6 +386,14 @@
 		/* Declare variables */
 		const showCaptchaBtn = document.getElementById("show-captcha-btn");
 		const popupBox = document.getElementById("popup-box");
+		const popup_video = document.getElementById("my-video");
+		const bgVideo = document.getElementById("background-video");
+		const title_video = document.getElementById("title-video");
+
+		/* Pause the videos */
+		popup_video.pause();
+		bgVideo.pause();
+		title_video.pause();
 
 		/* Listen for "click" event */
 		showCaptchaBtn.addEventListener("click", function() {
@@ -389,6 +401,12 @@
 			setTimeout(function() {
 				popupBox.style.transform = "scale(1)";
 			}, 50);
+			/* Play the video */
+			popup_video.play();
+			bgVideo.style.display = 'block';
+			bgVideo.play();
+			title_video.play();
+
 		});
 
 		/* Stop event from causing unintended effect */
@@ -397,22 +415,6 @@
 		});
 	  </script>
 
-		<script>
-
-			/* Declare variable */
-			const bgVideo = document.getElementById("background-video");
-			/* Pause background video */
-			bgVideo.pause(); 
-
-			/* Declare variable and listen for "click" event */
-			const show_CaptchaBtn = document.getElementById("show-captcha-btn");
-			show_CaptchaBtn.addEventListener("click", () => {
-				bgVideo.style.display = 'block';
-				/* Play the video */
-				bgVideo.play();
-			});
-
-		</script>
-	  
 </body>
 </html>
+
